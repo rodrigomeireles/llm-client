@@ -1,7 +1,9 @@
 from fastapi import FastAPI, HTTPException
 import openai
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
+FRONT_HTML = "static/index.html"
 
 
 @app.get("/")
@@ -21,8 +23,11 @@ async def generate_response(data: dict):
         max_tokens=50,  # You can adjust this as needed
     )
 
-    if response.choices:
-        generated_text = response.choices[0].message
+    if response.choices:  # type: ignore
+        generated_text = response.choices[0].message  # type: ignore
         return {"response": generated_text}
     else:
         raise HTTPException(status_code=500, detail="Failed to generate response")
+
+
+app.mount("/", StaticFiles(directory="static"), name="static")
