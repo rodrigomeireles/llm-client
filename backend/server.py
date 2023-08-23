@@ -1,9 +1,11 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Form
 import openai
 from fastapi.staticfiles import StaticFiles
+from typing import Annotated
 
 app = FastAPI()
 FRONT_HTML = "static/index.html"
+messages = ""
 
 
 @app.get("/")
@@ -28,6 +30,15 @@ async def generate_response(data: dict):
         return {"response": generated_text}
     else:
         raise HTTPException(status_code=500, detail="Failed to generate response")
+
+
+# TODO acho que o que eu quero é um WebSocket (API Rest não tem estado).
+# TODO adicionar um endpoint WebSocket que recebe um Cookie da sessão.
+@app.post("/send_message")
+async def concatenate_message(user_input: Annotated[str, Form()]):
+    messages += "<p>" + user_input + "</p>"
+    print(messages)
+    return messages
 
 
 app.mount("/", StaticFiles(directory="static"), name="static")
