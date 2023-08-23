@@ -1,11 +1,11 @@
-from fastapi import FastAPI, HTTPException, Form
+from fastapi import FastAPI, HTTPException, Form, Request
 import openai
 from fastapi.staticfiles import StaticFiles
 from typing import Annotated
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 FRONT_HTML = "static/index.html"
-messages = ""
 
 
 @app.get("/")
@@ -32,13 +32,16 @@ async def generate_response(data: dict):
         raise HTTPException(status_code=500, detail="Failed to generate response")
 
 
-# TODO acho que o que eu quero é um WebSocket (API Rest não tem estado).
-# TODO adicionar um endpoint WebSocket que recebe um Cookie da sessão.
 @app.post("/send_message")
-async def concatenate_message(user_input: Annotated[str, Form()]):
+async def concatenate_message(request: Request, user_input: Annotated[str, Form()]):
+    sess = request.session
+    messages = sess.get("messages")
+    if not messages:
+        messages = ""
     messages += "<p>" + user_input + "</p>"
-    print(messages)
-    return messages
+    sess["messages"] = messages
+    return sess
 
 
 app.mount("/", StaticFiles(directory="static"), name="static")
+app.add_middleware(SessionMiddleware, secret_key="key")
