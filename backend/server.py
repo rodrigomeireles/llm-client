@@ -1,4 +1,4 @@
-# TODO mandar resposta pro chat e responder
+# TODO implementar histórico de conversas pro chat
 from fastapi import FastAPI, HTTPException, Form, Request
 import openai
 from fastapi.staticfiles import StaticFiles
@@ -12,9 +12,22 @@ FRONT_HTML = "static/index.html"
 
 def list_to_li(messages: list) -> str:
     response = ""
-    for message in messages:
-        response += "<li>" + message + "</li>"
+    for idx, message in enumerate(messages):
+        if idx % 2 == 0:
+            response += "<li> Eu: " + message + "</li>"
+        else:
+            response += "<li> Chat: " + message + "</li>"
     return response
+
+
+async def list_to_gpt_list(messages: list, top_k: int = 2) -> list[dict[str, str]]:
+    gpt_messages = []
+    for idx, message in enumerate(messages):
+        if idx % 2 == 0:
+            gpt_messages.append({"role": "user", "content": message})
+        else:
+            gpt_messages.append({"role": "assistant", "content": message})
+    return gpt_messages
 
 
 @app.get("/")
@@ -22,15 +35,14 @@ async def read_root():
     return {"Hello": "World"}
 
 
-async def generate_response(data: dict):
-    message = data.get("message")
-    if not message:
+async def generate_response(history: list[str]):
+    if not history:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
-
+    formatted_history = await list_to_gpt_list(messages=history)
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": message}],
-        max_tokens=50,  # You can adjust this as needed
+        messages=formatted_history,
+        max_tokens=100,  # You can adjust this as needed
     )
 
     if response.choices:  # type: ignore
@@ -52,7 +64,7 @@ async def concatenate_message(request: Request, user_input: Annotated[str, Form(
     if not messages:
         messages = []
     messages.append(user_input)
-    response = await generate_response(data={"message": user_input})
+    response = await generate_response(history=messages)
     chat_response = response.get("chat_response")
     if chat_response:
         messages.append(chat_response)
@@ -65,8 +77,8 @@ async def get_history(request: Request):
     sess = request.session
     messages = sess.get("messages")
     if not messages:
-        sess["messages"] = ""
-    return sess["messages"]
+        sess["messages"] = []
+    return list_to_li(sess["messages"])
 
 
 @app.put("/refresh_session")
