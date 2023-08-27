@@ -1,4 +1,5 @@
 # TODO implementar histórico de conversas pro chat
+# TODO implementar rendering bonito de Markdown
 from fastapi import FastAPI, HTTPException, Form, Request
 import openai
 from fastapi.staticfiles import StaticFiles

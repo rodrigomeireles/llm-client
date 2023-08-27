@@ -14,8 +14,13 @@
       rel="stylesheet"
     />
   </head>
-  <body class="flex-col justify-end items-center">
-    <ul id="history" hx-get="/get_history" hx-trigger="load"></ul>
+  <body class="flex flex-col justify-end items-center">
+    <ul
+      id="history"
+      hx-get="/get_history"
+      hx-trigger="load"
+      class="text-lg max-w-prose"
+    ></ul>
     <div class="flex flex-row">
       <form
         hx-post="/send_message"
