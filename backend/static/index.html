@@ -8,19 +8,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script src="https://unpkg.com/htmx.org@1.9.4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;700;900&display=swap"
       rel="stylesheet"
     />
-    <title>Chat GPT</title>
   </head>
-  <body>
-      <div class="chat-history"></div>
-      <form class="message" hx-post="/send_message" hx-target=".chat-history">
+  <body class="flex flex-column justify-items">
+    <ul id="history"></ul>
+    <div class="flex flex-row justify-self">
+      <form
+        hx-post="/send_message"
+        hx-target="#history"
+        hx-on::after-request="this.reset()"
+      >
         <label for="user_input">Digite sua mensagem: </label>
-        <input type="text" class="user_input" name="user_input" value="">
-        <input type="submit" value="Enviar">
+        <input type="text" name="user_input" value="" />
+        <input
+          type="submit"
+          value="Enviar"
+          class="bg-sky-500 hover:bg-sky-700"
+        />
       </form>
+      <button
+        hx-target="#history"
+        hx-put="/refresh_session"
+        class="bg-sky-500 hover:bg-sky-700"
+      >
+        Limpar
+      </button>
     </div>
   </body>
 </html>
