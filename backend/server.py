@@ -1,3 +1,4 @@
+# TODO mandar resposta pro chat e responder
 from fastapi import FastAPI, HTTPException, Form, Request
 import openai
 from fastapi.staticfiles import StaticFiles
@@ -9,12 +10,18 @@ app = FastAPI()
 FRONT_HTML = "static/index.html"
 
 
+def list_to_li(messages: list) -> str:
+    response = ""
+    for message in messages:
+        response += "<li>" + message + "</li>"
+    return response
+
+
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/chat")
 async def generate_response(data: dict):
     message = data.get("message")
     if not message:
@@ -28,7 +35,7 @@ async def generate_response(data: dict):
 
     if response.choices:  # type: ignore
         generated_text = response.choices[0].message  # type: ignore
-        return {"response": generated_text}
+        return {"chat_response": generated_text["content"]}
     else:
         raise HTTPException(status_code=500, detail="Failed to generate response")
 
@@ -43,10 +50,14 @@ async def concatenate_message(request: Request, user_input: Annotated[str, Form(
     sess = request.session
     messages = sess.get("messages")
     if not messages:
-        messages = ""
-    messages += "<li>" + user_input + "</li>"
+        messages = []
+    messages.append(user_input)
+    response = await generate_response(data={"message": user_input})
+    chat_response = response.get("chat_response")
+    if chat_response:
+        messages.append(chat_response)
     sess["messages"] = messages
-    return sess["messages"]
+    return list_to_li(sess["messages"])
 
 
 @app.get("/get_history", response_class=HTMLResponse)

@@ -14,29 +14,30 @@
       rel="stylesheet"
     />
   </head>
-  <body class="flex flex-column justify-items">
+  <body class="flex flex-col justify-end items-center">
     <ul id="history"></ul>
-    <div class="flex flex-row justify-self">
+    <div class="flex flex-row">
       <form
         hx-post="/send_message"
         hx-target="#history"
         hx-on::after-request="this.reset()"
+        class="p-6 b-0"
       >
         <label for="user_input">Digite sua mensagem: </label>
         <input type="text" name="user_input" value="" />
         <input
           type="submit"
           value="Enviar"
-          class="bg-sky-500 hover:bg-sky-700"
+          class="p-1 bg-sky-500 hover:bg-sky-700"
         />
+        <button
+          hx-target="#history"
+          hx-put="/refresh_session"
+          class="p-1 bg-sky-500 hover:bg-sky-700"
+        >
+          Limpar
+        </button>
       </form>
-      <button
-        hx-target="#history"
-        hx-put="/refresh_session"
-        class="bg-sky-500 hover:bg-sky-700"
-      >
-        Limpar
-      </button>
     </div>
   </body>
 </html>
