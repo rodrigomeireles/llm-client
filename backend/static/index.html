@@ -15,19 +15,12 @@
     <title>Chat GPT</title>
   </head>
   <body>
-    <div class="chat-window">
-      <p>Janela do Chat</p>
-      <div class="chat-history">Alo galera</div>
-      <div class="user-input-box">
-        <input
-          name="user_input"
-          type="text"
-          hx-post="/send_message"
-          hx-target=".chat-history"
-          hx-trigger="click from:button.request-gpt-btn"
-        />
-        <button class="request-gpt-btn">Send</button>
-      </div>
+      <div class="chat-history"></div>
+      <form class="message" hx-post="/send_message" hx-target=".chat-history">
+        <label for="user_input">Digite sua mensagem: </label>
+        <input type="text" class="user_input" name="user_input" value="">
+        <input type="submit" value="Enviar">
+      </form>
     </div>
   </body>
 </html>

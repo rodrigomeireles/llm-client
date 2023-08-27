@@ -9,10 +9,6 @@ body {
     min-height: 100vh;
     padding: 0;
     margin: 0;
-}
-
-.chat-window {
-    display: flex;
-    flex-flow: column;
-    align-self: center;
+    justify-content: center;
+    align-items: center;
 }
