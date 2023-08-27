@@ -3,6 +3,7 @@ import openai
 from fastapi.staticfiles import StaticFiles
 from typing import Annotated
 from starlette.middleware.sessions import SessionMiddleware
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 FRONT_HTML = "static/index.html"
@@ -32,15 +33,35 @@ async def generate_response(data: dict):
         raise HTTPException(status_code=500, detail="Failed to generate response")
 
 
-@app.post("/send_message")
+@app.get("/clear_input", response_class=HTMLResponse)
+async def return_nothing():
+    return HTMLResponse("")
+
+
+@app.post("/send_message", response_class=HTMLResponse)
 async def concatenate_message(request: Request, user_input: Annotated[str, Form()]):
     sess = request.session
     messages = sess.get("messages")
     if not messages:
         messages = ""
-    messages += "<p>" + user_input + "</p>"
+    messages += "<li>" + user_input + "</li>"
     sess["messages"] = messages
-    return sess
+    return sess["messages"]
+
+
+@app.get("/get_history", response_class=HTMLResponse)
+async def get_history(request: Request):
+    sess = request.session
+    messages = sess.get("messages")
+    if not messages:
+        sess["messages"] = ""
+    return sess["messages"]
+
+
+@app.put("/refresh_session")
+async def refresh(request: Request, response_class=HTMLResponse):
+    request.session.clear()
+    return response_class("<p>Sessão limpa.</p>")
 
 
 app.mount("/", StaticFiles(directory="static"), name="static")
