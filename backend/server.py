@@ -21,9 +21,11 @@ def list_to_li(messages: list) -> str:
     return response
 
 
-async def list_to_gpt_list(messages: list, top_k: int = 2) -> list[dict[str, str]]:
+async def list_to_gpt_list(messages: list, top_k: int = 10) -> list[dict[str, str]]:
     gpt_messages = []
     for idx, message in enumerate(messages):
+        if idx > top_k - 1:
+            break
         if idx % 2 == 0:
             gpt_messages.append({"role": "user", "content": message})
         else:
@@ -43,9 +45,9 @@ async def generate_response(history: list[str]):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=formatted_history,
-        max_tokens=100,  # You can adjust this as needed
+        #max_tokens=2500,  # You can adjust this as needed
     )
-
+    print(formatted_history)
     if response.choices:  # type: ignore
         generated_text = response.choices[0].message  # type: ignore
         return {"chat_response": generated_text["content"]}
