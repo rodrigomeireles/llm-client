@@ -1,5 +1,6 @@
 # TODO implementar histórico de conversas pro chat
 # TODO implementar rendering bonito de Markdown
+import markdown
 from fastapi import FastAPI, HTTPException, Form, Request
 import openai
 from fastapi.staticfiles import StaticFiles
@@ -13,15 +14,18 @@ FRONT_HTML = "static/index.html"
 
 def list_to_li(messages: list) -> str:
     response = ""
-    for idx, message in enumerate(messages):
+    html_messages = [markdown.markdown(message) for message in messages]
+    for idx, message in enumerate(html_messages):
+        message = message.replace("<p>", "", 1).replace("</p>", "", 1)
         if idx % 2 == 0:
             response += "<li> Eu: " + message + "</li>"
+            print(message)
         else:
             response += "<li> Chat: " + message + "</li>"
     return response
 
 
-async def list_to_gpt_list(messages: list, top_k: int = 10) -> list[dict[str, str]]:
+def list_to_gpt_list(messages: list, top_k: int = 10) -> list[dict[str, str]]:
     gpt_messages = []
     for idx, message in enumerate(messages):
         if idx > top_k - 1:
@@ -38,14 +42,14 @@ async def read_root():
     return {"Hello": "World"}
 
 
-async def generate_response(history: list[str]):
+def generate_response(history: list[str]):
     if not history:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
-    formatted_history = await list_to_gpt_list(messages=history)
+    formatted_history = list_to_gpt_list(messages=history)
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=formatted_history,
-        #max_tokens=2500,  # You can adjust this as needed
+        # max_tokens=2500,  # You can adjust this as needed
     )
     print(formatted_history)
     if response.choices:  # type: ignore
@@ -67,7 +71,7 @@ async def concatenate_message(request: Request, user_input: Annotated[str, Form(
     if not messages:
         messages = []
     messages.append(user_input)
-    response = await generate_response(history=messages)
+    response = generate_response(history=messages)
     chat_response = response.get("chat_response")
     if chat_response:
         messages.append(chat_response)
