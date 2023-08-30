@@ -15,11 +15,11 @@
     />
   </head>
   <body
-    class="flex flex-col items-center h-screen bg-fixed"
+    class="flex flex-col items-center h-screen bg-cover bg-no-repeat bg-center"
     style="background-image: url(./breakfast-8200753_1920.jpg)"
   >
     <div
-      class="p-2 border-solid backdrop-blur-lg border-4 border-red-900 rounded-md text-gray-300"
+      class="flex flex-col p-2 h-screen border-solid backdrop-blur-lg border-4 border-red-900 rounded-md text-gray-300 justify-between"
     >
       <ul
         id="history"
@@ -27,29 +27,27 @@
         hx-trigger="load"
         class="text-lg max-w-prose"
       ></ul>
-      <div class="flex flex-row mt-auto">
-        <form
-          hx-post="/send_message"
+      <form
+        hx-post="/send_message"
+        hx-target="#history"
+        hx-on::after-request="this.reset()"
+        class="p-6 b-0 flex flex-row flex-none items-center space-x-2"
+      >
+        <label for="user_input">Digite sua mensagem: </label>
+        <input type="text" name="user_input" value="" class="text-gray-700" />
+        <input
+          type="submit"
+          value="Enviar"
+          class="p-2 bg-red-700 hover:bg-red-900 rounded-md"
+        />
+        <button
           hx-target="#history"
-          hx-on::after-request="this.reset()"
-          class="p-6 b-0"
+          hx-put="/refresh_session"
+          class="p-2 bg-red-700 hover:bg-red-900 rounded-md"
         >
-          <label for="user_input">Digite sua mensagem: </label>
-          <input type="text" name="user_input" value="" class="text-gray-700" />
-          <input
-            type="submit"
-            value="Enviar"
-            class="p-2 bg-red-700 hover:bg-red-900 rounded-md"
-          />
-          <button
-            hx-target="#history"
-            hx-put="/refresh_session"
-            class="p-2 bg-red-700 hover:bg-red-900 rounded-md"
-          >
-            Limpar
-          </button>
-        </form>
-      </div>
+          Limpar
+        </button>
+      </form>
     </div>
   </body>
 </html>
