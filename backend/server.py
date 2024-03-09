@@ -17,7 +17,9 @@ client = Groq()
 
 def list_to_li(messages: list) -> str:
     response = ""
-    html_messages = [markdown.markdown(message) for message in messages]
+    html_messages = [
+        markdown.markdown(message, extensions=["fenced_code"]) for message in messages
+    ]
     for idx, message in enumerate(html_messages):
         message = message.replace("<p>", "", 1).replace("</p>", "", 1)
         if idx % 2 == 0:
