@@ -2,7 +2,9 @@
 # TODO implementar rendering bonito de Markdown
 import markdown
 from fastapi import FastAPI, HTTPException, Form, Request
-import openai
+
+# import openai
+from groq import Groq
 from fastapi.staticfiles import StaticFiles
 from typing import Annotated
 from starlette.middleware.sessions import SessionMiddleware
@@ -10,6 +12,7 @@ from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 FRONT_HTML = "static/index.html"
+client = Groq()
 
 
 def list_to_li(messages: list) -> str:
@@ -46,15 +49,15 @@ def generate_response(history: list[str]):
     if not history:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
     formatted_history = list_to_gpt_list(messages=history)
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+    response = client.chat.completions.create(
+        model="mixtral-8x7b-32768",
         messages=formatted_history,
         # max_tokens=2500,  # You can adjust this as needed
     )
     print(formatted_history)
     if response.choices:  # type: ignore
         generated_text = response.choices[0].message  # type: ignore
-        return {"chat_response": generated_text["content"]}
+        return {"chat_response": generated_text.content}
     else:
         raise HTTPException(status_code=500, detail="Failed to generate response")
 
