@@ -1,5 +1,5 @@
-# TODO implementar histórico de conversas pro chat
 # TODO implementar rendering bonito de Markdown
+# TODO parar de dar overflow na caixinha
 import markdown
 from fastapi import FastAPI, HTTPException, Form, Request
 
@@ -52,6 +52,8 @@ def generate_response(history: list[str]):
     response = client.chat.completions.create(
         model="mixtral-8x7b-32768",
         messages=formatted_history,
+        temperature=0.5,
+        top_p=0,
         # max_tokens=2500,  # You can adjust this as needed
     )
     print(formatted_history)
