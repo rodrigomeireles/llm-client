@@ -13,10 +13,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;700;900&display=swap" rel="stylesheet" />
 </head>
 
-<body class="flex flex-col items-center h-screen bg-cover bg-no-repeat bg-center"
-  style="background-image: url(./breakfast-8200753_1920.jpg)">
+<body class="flex flex-col items-center h-screen bg-cover bg-no-repeat bg-center bg-green-900">
   <div
-    class="flex flex-col p-2 h-screen border-solid backdrop-blur-lg border-4 border-red-900 rounded-md text-black-500 justify-between">
+    class="flex flex-col p-2 h-screen border-solid backdrop-blur-lg border-4 border-red-900 rounded-md text-white-900 justify-between">
     <ul id="history" hx-get="/get_history" hx-trigger="load" class="text-lg max-w-prose max-h-fit overflow-y-auto"></ul>
     <form hx-post="/send_message" hx-target="#history" hx-on::after-request="this.reset()"
       class="p-6 b-0 flex flex-row flex-none items-center space-x-2">
