@@ -1,0 +1,50 @@
+package templates
+
+templ ChatClient(session string) {
+	<!DOCTYPE html>
+	<html lang="pt-BR">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+			<link rel="stylesheet" href="styles/styles.css"/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<script src="scripts/htmx.min.js"></script>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;700;900&display=swap"
+				rel="stylesheet"
+			/>
+		</head>
+		<body class="flex flex-col items-center h-screen bg-cover bg-no-repeat bg-center bg-green-900" hx-data>
+			<div
+				class="flex flex-col p-2 h-screen border-solid backdrop-blur-lg border-4 border-red-900 rounded-md text-white-900 justify-between"
+			>
+				<p
+					id="history"
+					hx-get="`/history/${session}`"
+					hx-trigger="load"
+					class="text-lg max-w-prose max-h-fit overflow-y-auto"
+				>Hello Brasil</p>
+				<form
+					hx-post="/send_message"
+					hx-target="#history"
+					hx-on::after-request="this.reset()"
+					class="p-6 b-0 flex flex-row flex-none items-center space-x-2"
+				>
+					<label for="user_input">Digite sua mensagem: </label>
+					<input type="text" name="user_input" value="" class="text-gray-700"/>
+					<input type="submit" value="Enviar" class="p-2 bg-red-700 hover:bg-red-900 rounded-md"/>
+					<button
+						hx-target="#history"
+						hx-put="/refresh_session"
+						class="p-2 bg-red-700 hover:bg-red-900 rounded-md"
+					>
+						Limpar
+					</button>
+				</form>
+			</div>
+		</body>
+	</html>
+}
