@@ -22,7 +22,8 @@ func main() {
 	http.Handle("/scripts/", http.StripPrefix("/scripts",
 		http.FileServer(http.Dir(path.Join(rootdir, "scripts")))))
 
-	http.HandleFunc("/history/", handlers.HistoryHandler)
+	http.Handle("/history/", http.StripPrefix("/history",
+		http.HandlerFunc(handlers.HistoryHandler)))
 
 	http.HandleFunc("/", handlers.MainPageHandler)
 
