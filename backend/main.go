@@ -25,7 +25,7 @@ func main() {
 	http.Handle("/history/", http.StripPrefix("/history",
 		http.HandlerFunc(handlers.HistoryHandler)))
 
-	http.HandleFunc("/", handlers.MainPageHandler)
+	http.HandleFunc("/", handlers.ChatClientHandler)
 
 	log.Printf("Starting server.")
 	if err := http.ListenAndServe(":8080", nil); err != nil {

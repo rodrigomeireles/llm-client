@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/rodrigomeireles/gpt-client/backend/models"
 	"github.com/rodrigomeireles/gpt-client/web/templates"
 	"net/http"
 )
@@ -15,10 +16,15 @@ func ChatClientHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HistoryHandler(w http.ResponseWriter, r *http.Request) {
-
-	// Render the main page template with any dynamic data
+	// Render the history page template with any dynamic data
 	ctx := r.Context()
-	err := templates.HistoryWindow().Render(ctx, w)
+	println(ctx)
+	messages := []models.ChatMessage{
+		{Role: "user", Content: "hello"},
+		{Role: "assistant", Content: "bonjour"},
+		{Role: "user", Content: "ohayou"},
+	}
+	err := templates.History(messages).Render(ctx, w)
 	if err != nil {
 		http.Error(w, "Internal Server Error", 500)
 	}

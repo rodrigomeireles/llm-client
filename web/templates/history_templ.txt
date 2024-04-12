@@ -1,2 +1,4 @@
-<p>
+<p>User: 
+</p>
+<p class=\"text-silver_lake_blue\">Model: 
 </p>
