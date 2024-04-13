@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var history = []models.ChatMessage{}
+
 func ChatClientHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the main page template with any dynamic data
 	ctx := r.Context()

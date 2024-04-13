@@ -6,9 +6,9 @@ templ History(history []models.ChatMessage) {
 	for _, message := range history {
 		switch message.Role {
 			case "user":
-				<p>User: { message.Content } </p>
+				<p>{ message.Content } </p>
 			case "assistant":
-				<p class="text-silver_lake_blue">Model: { message.Content } </p>
+				<p class="text-silver_lake_blue">{ message.Content } </p>
 		}
 	}
 }

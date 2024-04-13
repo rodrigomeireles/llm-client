@@ -25,6 +25,7 @@ templ ChatClient(session string) {
 					class="h-10 cursor-pointer overflow-hidden whitespace-pre rounded-md bg-rich_black-700 px-4 text-center text-sm font-medium normal-case text-white opacity-100 outline-none focus:ring"
 					hx-post="/history"
 					hx-target="#history"
+					hx-swap="beforeend"
 				/>
 			</div>
 		</body>
