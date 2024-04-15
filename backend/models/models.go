@@ -5,6 +5,13 @@ type ChatMessage struct {
 	Content string
 }
 
-type ChatHistory struct {
-	messages []ChatMessage
+type GroqRequest struct {
+	Messages []ChatMessage `json:"messages"`
+	Model    string        `json:"model"`
+}
+
+type GroqResponse struct {
+	Choices []struct {
+		Message ChatMessage
+	}
 }
