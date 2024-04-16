@@ -86,9 +86,10 @@ For major changes, please open an issue first to discuss what you would like to 
 
 ## License
 
-[Specify the license under which the project is made available]
+[MIT]
 
 
 #TODO
-Escrever template de resposta do chat.
-Usar cookie pra passar ID da sessão ao invés de query paramater.
+- Write tests
+- Better session handling
+- Add model options

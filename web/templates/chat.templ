@@ -13,25 +13,25 @@ templ ChatClient(session string) {
 			<script src="scripts/htmx.min.js"></script>
 		</head>
 		<body class="flex flex-col items-center h-screen bg-oxford_blue justify-between text-platinum text-5xl p-5">
-			<div hx-get="/history" hx-trigger="load once" id="history" class="w-7/10 mx-auto overflow-y-auto text-left whitespace-pre-wrap break-all h-5/6"></div>
+			<div
+				hx-get="/history"
+				hx-trigger="load once"
+				id="history"
+				class="w-7/10 mx-auto overflow-y-auto text-left whitespace-pre-wrap break-all h-5/6"
+			></div>
 			<form
 				class="space-y-3 flex-auto pt-2"
-				hx-post="/history"
-				hx-target="#history"
-				hx-swap="beforeend"
-				hx-on::after-request="this.reset()"
+				hx-on::before-request="this.reset()"
 			>
-				<input
-					type="text"
+				<textarea
 					name="user_message"
 					placeholder="Ask me anything"
-					class="self-stretch text-oxford_blue whitespace-pre-wrap rounded-md border bg-white p-5 text-2xl font-normal normal-case opacity-100 outline-none focus:opacity-100 focus:ring"
-				/>
-				<input
-					type="submit"
-					value="Send"
-					class="h-10 cursor-pointer overflow-hidden whitespace-pre rounded-md bg-rich_black-700 px-4 text-center text-sm font-medium normal-case text-white opacity-100 outline-none focus:ring"
-				/>
+					class="self-stretch text-oxford_blue whitespace-pre-wrap rounded-md border bg-white p-5 text-2xl font-normal normal-case opacity-100 outline-none focus:opacity-100 focus:ring scroll-p-2"
+					hx-post="/history"
+					hx-target="#history"
+					hx-trigger="keydown[shiftKey&&key=='Enter']"
+					onkeydown="if (event.key === 'Enter' && event.shiftKey) { event.preventDefault(); return false; }"
+				></textarea>
 			</form>
 		</body>
 	</html>

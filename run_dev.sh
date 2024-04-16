@@ -21,7 +21,6 @@ cleanup() {
     kill $GO_PID
     pkill main
     kill $TAILWIND_PID
-    rm ./web/templates/*.txt
     exit
 }
 

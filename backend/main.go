@@ -11,14 +11,16 @@ import (
 
 func main() {
 	err := godotenv.Load()
+	log.Println(os.Environ())
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("Error loading .env file.")
 	}
 
 	rootdir, err := os.Getwd()
 	if err != nil {
-		rootdir = "woops"
+		log.Fatal("Error while aquiring rootdir.")
 	}
+	log.Println(rootdir)
 	http.Handle("/images/", http.StripPrefix("/images",
 		http.FileServer(http.Dir(path.Join(rootdir, "web/images")))))
 

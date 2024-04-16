@@ -42,6 +42,7 @@ func ChatClientHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	err := templates.ChatClient("Leitãozinho").Render(ctx, w)
 	if err != nil {
+		log.Panic(err)
 		http.Error(w, "Internal Server Error", 500)
 		return
 	}
@@ -76,9 +77,7 @@ func HistoryHandler(w http.ResponseWriter, r *http.Request) {
 		// map Groq response and Unmarshall it
 		var res models.GroqResponse
 		resbytes, _ := io.ReadAll(llm_res.Body)
-		log.Println(string(resbytes))
 		_ = json.Unmarshal(resbytes, &res)
-		log.Println(res)
 		history = append(history, []models.ChatMessage{res.Choices[0].Message}...)
 		log.Println(history)
 		err = templates.History(history).Render(ctx, w)
@@ -86,6 +85,5 @@ func HistoryHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal Server Error", 500)
 			return
 		}
-
 	}
 }

@@ -8,7 +8,6 @@
 *.dll
 *.so
 *.dylib
-*.txt
 
 # Test binary, built with `go test -c`
 *.test
@@ -23,3 +22,4 @@ node_modules/
 # Go workspace file
 go.work
 
+backend/cvserver.bin

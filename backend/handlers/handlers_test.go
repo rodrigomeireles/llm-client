@@ -1,13 +1,14 @@
 package handlers
 
 import (
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 )
 
-// TestMainPageHandler checks if the main page is returned successfully.
+// TestChatClient checks if the client page is returned successfully.
 func TestChatClient(t *testing.T) {
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
@@ -16,10 +17,10 @@ func TestChatClient(t *testing.T) {
 
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(ChatClientHandler)
-
 	handler.ServeHTTP(rr, req)
-
 	//test status code
+	bytes, _ := io.ReadAll(rr.Body)
+	t.Logf(string(bytes))
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("MainPageHandler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
@@ -30,4 +31,3 @@ func TestChatClient(t *testing.T) {
 		t.Errorf("MainPageHandler returned wrong content type: got %v want %v", contentType, expected)
 	}
 }
-
