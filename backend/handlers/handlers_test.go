@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"io"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -19,8 +18,6 @@ func TestChatClient(t *testing.T) {
 	handler := http.HandlerFunc(ChatClientHandler)
 	handler.ServeHTTP(rr, req)
 	//test status code
-	bytes, _ := io.ReadAll(rr.Body)
-	t.Logf(string(bytes))
 	if status := rr.Code; status != http.StatusOK {
 		t.Errorf("MainPageHandler returned wrong status code: got %v want %v", status, http.StatusOK)
 	}
