@@ -87,3 +87,13 @@ func HistoryHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func SidebarHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	err := templates.Sidebar().Render(ctx, w)
+	if err != nil {
+		log.Panic(err)
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+}

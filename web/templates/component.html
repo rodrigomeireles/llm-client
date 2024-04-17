@@ -1,0 +1,116 @@
+<div class="hidden flex-col space-y-4 border-l border-l-border md:order-2 lg:flex">
+	<div class="grid gap-2">
+		<div data-state="closed"></div>
+	</div>
+	<div class="space-y-8">
+		<div class="px-6 space-y-8">
+			<div class="grid gap-2">
+				<div class="flex flex-col gap-2"><label
+						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+						for="model" data-state="closed">Model</label><button
+						class="inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 border border-input dark:border-gray-500 bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full justify-between"
+						role="combobox" aria-expanded="false" aria-label="Select a model"
+						type="button" aria-haspopup="dialog" aria-controls="radix-:r2a:"
+						data-state="closed">mixtral-8x7b-32768<svg
+							xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50">
+							<path d="m7 15 5 5 5-5"></path>
+							<path d="m7 9 5-5 5 5"></path>
+						</svg></button></div>
+			</div>
+			<div class="grid gap-2 pt-2">
+				<div class="flex flex-col gap-2" data-state="closed">
+					<div class="flex items-center justify-between"><label
+							class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
+							for="input-temperature">temperature</label><input
+							class="flex h-10 bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-ring focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-0 focus-visible:border-ring ml-auto w-16 rounded-md border px-2 py-0.5 text-right text-sm text-muted-foreground border-border"
+							id="input-temperature" value="1"></div><span dir="ltr"
+						data-orientation="horizontal" aria-disabled="false"
+						class="relative flex w-full touch-none select-none items-center [&amp;_[role=slider]]:h-4 [&amp;_[role=slider]]:w-4"
+						id="slider-temperature" aria-label="temperature"
+						style="--radix-slider-thumb-transform: translateX(-50%);"><span
+							data-orientation="horizontal"
+							class="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary"><span
+								data-orientation="horizontal"
+								class="absolute h-full bg-gray-300 dark:bg-gray-500"
+								style="left: 0%; right: 50%;"></span></span><span
+							style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(50% + 0px);"><span
+								role="slider" aria-valuemin="0" aria-valuemax="2"
+								aria-orientation="horizontal"
+								data-orientation="horizontal" tabindex="0"
+								class="block h-5 w-5 rounded-full border-2 border-gray-300 bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+								style="" data-radix-collection-item=""
+								aria-valuenow="1"></span></span></span>
+				</div>
+			</div>
+			<div class="grid gap-2 pt-2">
+				<div class="flex flex-col gap-2" data-state="closed">
+					<div class="flex items-center justify-between"><label
+							class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
+							for="input-max tokens">max tokens</label><input
+							class="flex h-10 bg-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-ring focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus-visible:ring-0 focus-visible:border-ring ml-auto w-16 rounded-md border px-2 py-0.5 text-right text-sm text-muted-foreground border-border"
+							id="input-max tokens" value="1024"></div><span dir="ltr"
+						data-orientation="horizontal" aria-disabled="false"
+						class="relative flex w-full touch-none select-none items-center [&amp;_[role=slider]]:h-4 [&amp;_[role=slider]]:w-4"
+						id="slider-max tokens" aria-label="max tokens"
+						style="--radix-slider-thumb-transform: translateX(-50%);"><span
+							data-orientation="horizontal"
+							class="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary"><span
+								data-orientation="horizontal"
+								class="absolute h-full bg-gray-300 dark:bg-gray-500"
+								style="left: 0%; right: 96.875%;"></span></span><span
+							style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(3.125% + 7.5px);"><span
+								role="slider" aria-valuemin="0" aria-valuemax="32768"
+								aria-orientation="horizontal"
+								data-orientation="horizontal" tabindex="0"
+								class="block h-5 w-5 rounded-full border-2 border-gray-300 bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+								style="" data-radix-collection-item=""
+								aria-valuenow="1024"></span></span></span>
+				</div>
+			</div>
+			<div>
+				<div class="flex items-center justify-between" data-state="closed"><label
+						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+						for="toggle-Stream">Stream</label><button type="button" role="switch"
+						aria-checked="true" data-state="checked" value="on"
+						class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
+						id="toggle-Stream"><span data-state="checked"
+							class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
+				</div>
+			</div>
+			<div>
+				<div class="flex items-center justify-between" data-state="closed"><label
+						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+						for="toggle-JSON Mode">JSON Mode</label><button type="button"
+						role="switch" aria-checked="false" data-state="unchecked" value="on"
+						class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input"
+						id="toggle-JSON Mode"><span data-state="unchecked"
+							class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"></span></button>
+				</div>
+			</div>
+			<div data-orientation="horizontal" role="none" class="shrink-0 bg-border h-[1px] w-full"></div>
+		</div>
+		<div class="w-full" data-orientation="vertical">
+			<div data-state="closed" data-orientation="vertical" class="border-b-0">
+				<h3 data-orientation="vertical" data-state="closed" class="flex"><button type="button"
+						aria-controls="radix-:r2c:" aria-expanded="false" data-state="closed"
+						data-orientation="vertical" id="radix-:r2b:"
+						class="flex flex-1 items-center justify-between transition-all [&amp;[data-state=open]>svg]:rotate-180 text-sm font-medium border-b-primaryaccent hover:bg-secondary hover:no-underline rounded-xl p-2 mx-4"
+						data-radix-collection-item="">Advanced<svg
+							xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="lucide lucide-chevron-down h-4 w-4 shrink-0 transition-transform duration-200">
+							<path d="m6 9 6 6 6-6"></path>
+						</svg></button></h3>
+				<div data-state="closed" id="radix-:r2c:" hidden="" role="region"
+					aria-labelledby="radix-:r2b:" data-orientation="vertical"
+					class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+					style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
