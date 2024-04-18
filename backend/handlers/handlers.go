@@ -61,6 +61,8 @@ func HistoryHandler(w http.ResponseWriter, r *http.Request) {
 
 	case "POST":
 		userMessage := r.PostFormValue("user_message")
+		model := r.PostFormValue("model")
+		log.Printf(model)
 		if userMessage == "" {
 			http.Error(w, "Bad Request: no message provided", 400)
 			log.Println("Empty message")
@@ -85,15 +87,5 @@ func HistoryHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Internal Server Error", 500)
 			return
 		}
-	}
-}
-
-func SidebarHandler(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	err := templates.Sidebar().Render(ctx, w)
-	if err != nil {
-		log.Panic(err)
-		http.Error(w, "Internal Server Error", 500)
-		return
 	}
 }
