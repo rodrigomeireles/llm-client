@@ -93,3 +93,4 @@ For major changes, please open an issue first to discuss what you would like to 
 - Write tests
 - Better session handling
 - Add model options
+- Write a Dockerfile and a compose.yaml 
