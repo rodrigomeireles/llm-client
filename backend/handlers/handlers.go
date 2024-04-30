@@ -23,6 +23,7 @@ func CallGroqModel(messages *[]models.ChatMessage) (*http.Response, error) {
 		Messages: *messages,
 	}
 	bbody, _ := json.Marshal(body)
+	log.Printf("Calling model with body %s", string(bbody))
 	req, err := http.NewRequest("POST", "https://api.groq.com/openai/v1/chat/completions", bytes.NewReader(bbody))
 	if err != nil {
 		return nil, err
@@ -70,16 +71,34 @@ func HistoryHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		newMessage := []models.ChatMessage{{Role: "user", Content: userMessage}}
 		history = append(history, newMessage...)
+		log.Println("Calling model!")
 		llm_res, err := CallGroqModel(&history)
 		if err != nil {
 			http.Error(w, "Error calling the model", 502)
-			log.Println(err)
+			log.Printf("Error calling the model: %v", err)
+			return
+		}
+		log.Println("Reading response to byte-array")
+		resbytes, err := io.ReadAll(llm_res.Body)
+		if llm_res.StatusCode != 200 {
+			http.Error(w, "Error calling the model", 502)
+			log.Printf("Error calling the model:\n Response Code: %d, Response: %s", llm_res.StatusCode, string(resbytes))
 			return
 		}
 		// map Groq response and Unmarshall it
 		var res models.GroqResponse
-		resbytes, _ := io.ReadAll(llm_res.Body)
-		_ = json.Unmarshal(resbytes, &res)
+		if err != nil {
+			log.Println("Jesus Christ we can't read shit")
+			http.Error(w, "Error decoding the response", http.StatusUnprocessableEntity)
+			return
+		}
+		log.Println("Unmarshalling response")
+		marsh_err := json.Unmarshal(resbytes, &res)
+		if marsh_err != nil {
+			http.Error(w, "Error decoding the response", http.StatusUnprocessableEntity)
+			log.Printf("Error unmarshalling the response: %v", res)
+			return
+		}
 		history = append(history, []models.ChatMessage{res.Choices[0].Message}...)
 		log.Println(history)
 		err = templates.History(history).Render(ctx, w)

@@ -1,8 +1,8 @@
 package models
 
 type ChatMessage struct {
-	Role    string
-	Content string
+	Role    string `json:"role"`
+	Content string `json:"content"`
 }
 
 type GroqRequest struct {
