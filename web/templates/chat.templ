@@ -90,13 +90,14 @@ templ ChatClient(session string) {
 					</svg>
 				</button>
 			</div>
-			<div
-				hx-get="/history"
-				hx-trigger="load once"
-				id="history"
-				class="w-7/10 mx-auto overflow-y-auto text-left whitespace-pre-wrap break-all h-5/6"
-				hx-on:click=""
-			></div>
+			<div class="flex flex-col-reverse overflow-y-scroll break-all whitespace-pre-wrap h-5/6 w-7/10 mx-auto text-left">
+				<div
+					hx-get="/history"
+					hx-trigger="load once"
+					id="history"
+					hx-on:click=""
+				></div>
+			</div>
 			<form class="space-y-3 flex-auto pt-2" hx-on::before-request="this.reset()">
 				<textarea
 					name="user_message"
