@@ -14,7 +14,7 @@ templ ChatClient(session string) {
 			<script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js"></script>
 		</head>
 		<body
-			class="flex flex-col self-stretch items-center h-screen bg-oxford_blue justify-between text-platinum text-2xl p-5 z-0"
+			class="flex flex-col self-stretch items-center h-screen bg-oxford_blue justify-between text-platinum text-2xl p-5 z-0 overflow-y-hidden"
 		>
 			<script>
 		function toggle_sidebar(event) {
@@ -31,11 +31,11 @@ templ ChatClient(session string) {
 			<div class="flex overflow-hidden self-start" hx-on:click="toggle_sidebar(event)">
 				<!-- Sidebar -->
 				<div
-					class="h-screen bg-oxford_blue z-1 w-56 overflow-y-auto transition-transform transform -translate-x-full ease-in-out duration-300 absolute"
+					class="h-screen bg-oxford_blue z-1 w-auto overflow-y-auto transition-transform transform -translate-x-full ease-in-out duration-300 absolute "
 					name="sidebar"
 				>
 					<!-- Your Sidebar Content -->
-					<div class="text-gray-500">
+					<div class="text-gray-500 w-auto pr-2">
 						<button class="hover:text-gray-600 text-right pt-0" id="close-sidebar">
 							<svg
 								class="w-6 h-6"
@@ -59,7 +59,7 @@ templ ChatClient(session string) {
 									<option value="openai-gpt-4-turbo">GPT-4-Turbo</option>
 									<option value="groq-mixtal-8x7b">Mixtral-8x7B</option>
 									<option value="groq-gemma-7b">Gemma - 7b</option>
-									<option value="groq-llama2-70b">LLama 2 - 70b</option>
+									<option value="groq-llama3-70b">LLama 3 - 70b</option>
 								</select>
 							</li>
 							<li class="mb-2">
@@ -90,12 +90,13 @@ templ ChatClient(session string) {
 					</svg>
 				</button>
 			</div>
-			<div class="flex flex-col-reverse overflow-y-scroll break-all whitespace-pre-wrap h-5/6 w-7/10 mx-auto text-left">
+			<div class="flex flex-col-reverse overflow-y-scroll h-5/6 w-7/10 ">
 				<div
 					hx-get="/history"
 					hx-trigger="load once"
 					id="history"
 					hx-on:click=""
+					class="break-words whitespace-pre-wrap mx-auto text-left"
 				></div>
 			</div>
 			<form class="space-y-3 flex-auto pt-2" hx-on::before-request="this.reset()">
