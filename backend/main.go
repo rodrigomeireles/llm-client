@@ -21,13 +21,13 @@ func main() {
 		log.Fatal("Error while aquiring rootdir.")
 	}
 	log.Println(rootdir)
-	http.Handle("/images/", http.StripPrefix("/images",
+	http.Handle("GET /images/", http.StripPrefix("/images",
 		http.FileServer(http.Dir(path.Join(rootdir, "web/images")))))
 
-	http.Handle("/styles/", http.StripPrefix("/styles",
+	http.Handle("GET /styles/", http.StripPrefix("/styles",
 		http.FileServer(http.Dir(path.Join(rootdir, "web/static/css")))))
 
-	http.Handle("/scripts/", http.StripPrefix("/scripts",
+	http.Handle("GET /scripts/", http.StripPrefix("/scripts",
 		http.FileServer(http.Dir(path.Join(rootdir, "scripts")))))
 
 	http.Handle("/history",
