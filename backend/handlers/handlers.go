@@ -13,13 +13,13 @@ import (
 	"github.com/rodrigomeireles/gpt-client/web/templates"
 )
 
-var history = []models.ChatMessage{{Role: "system", Content: "You are an AI assistant."}}
+var history = []models.ChatMessage{{Role: "system", Content: "You are an AI assistant with a snarky attitude."}}
 
-func CallGroqModel(messages *[]models.ChatMessage) (*http.Response, error) {
+func CallGroqModel(messages *[]models.ChatMessage, model string) (*http.Response, error) {
 	// form the request
 	// this assumes the API-KEY was already loaded as an environment variable
 	body := &models.GroqRequest{
-		Model:    "mixtral-8x7b-32768",
+		Model:    model,
 		Messages: *messages,
 	}
 	bbody, _ := json.Marshal(body)
@@ -63,7 +63,6 @@ func PostHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	userMessage := r.PostFormValue("user_message")
 	model := r.PostFormValue("model")
-	log.Printf(model)
 	if userMessage == "" {
 		http.Error(w, "Bad Request: no message provided", 400)
 		log.Println("Empty message")
@@ -72,7 +71,7 @@ func PostHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	newMessage := []models.ChatMessage{{Role: "user", Content: userMessage}}
 	history = append(history, newMessage...)
 	log.Println("Calling model!")
-	llm_res, err := CallGroqModel(&history)
+	llm_res, err := CallGroqModel(&history, model)
 	if err != nil {
 		http.Error(w, "Error calling the model", 502)
 		log.Printf("Error calling the model: %v", err)

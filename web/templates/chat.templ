@@ -1,5 +1,7 @@
 package templates
 
+import "github.com/rodrigomeireles/gpt-client/backend/models"
+
 templ ChatClient(session string) {
 	<!DOCTYPE html>
 	<html lang="pt-BR">
@@ -55,11 +57,9 @@ templ ChatClient(session string) {
 						<ul class="mt-4">
 							<li class="mb-2">
 								<select name="model" class="block hover:text-indigo400 bg-transparent">
-									<option value="openai-gpt-3.5-turbo">GPT-3.5-Turbo</option>
-									<option value="openai-gpt-4-turbo">GPT-4-Turbo</option>
-									<option value="groq-mixtal-8x7b">Mixtral-8x7B</option>
-									<option value="groq-gemma-7b">Gemma - 7b</option>
-									<option value="groq-llama3-70b">LLama 3 - 70b</option>
+									for pretty_name, value := range models.GroqModels {
+										<option value={ value }>{ pretty_name } </option>
+									}
 								</select>
 							</li>
 							<li class="mb-2">

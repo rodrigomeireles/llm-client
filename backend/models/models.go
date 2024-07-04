@@ -5,6 +5,24 @@ type ChatMessage struct {
 	Content string `json:"content"`
 }
 
+type GroqModel int
+
+const (
+	LLaMA3_8b_8192 GroqModel = iota
+	LLaMA3_70b_8192
+	Mixtral_8x7b
+	Gemma_7b
+	Gemma_9b
+)
+
+var GroqModels = map[string]string{
+	LLaMA3_8b_8192.String():  "llama3-8b-8192",
+	LLaMA3_70b_8192.String(): "llama3-70b-8192",
+	Mixtral_8x7b.String():    "mixtral-8x7b-32768",
+	Gemma_7b.String():        "gemma2-7b-it",
+	Gemma_9b.String():        "gemma2-9b-it",
+}
+
 type GroqRequest struct {
 	Messages []ChatMessage `json:"messages"`
 	Model    string        `json:"model"`
