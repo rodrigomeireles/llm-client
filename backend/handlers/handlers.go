@@ -49,62 +49,63 @@ func ChatClientHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func HistoryHandler(w http.ResponseWriter, r *http.Request) {
+func GetHistoryHandler(w http.ResponseWriter, r *http.Request) {
 	// Render the history page template with any dynamic data
 	ctx := r.Context()
-	switch r.Method {
-	case "GET":
-		err := templates.History(history).Render(ctx, w)
-		if err != nil {
-			http.Error(w, "Internal Server Error", 500)
-			return
-		}
+	err := templates.History(history).Render(ctx, w)
+	if err != nil {
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+}
 
-	case "POST":
-		userMessage := r.PostFormValue("user_message")
-		model := r.PostFormValue("model")
-		log.Printf(model)
-		if userMessage == "" {
-			http.Error(w, "Bad Request: no message provided", 400)
-			log.Println("Empty message")
-			return
-		}
-		newMessage := []models.ChatMessage{{Role: "user", Content: userMessage}}
-		history = append(history, newMessage...)
-		log.Println("Calling model!")
-		llm_res, err := CallGroqModel(&history)
-		if err != nil {
-			http.Error(w, "Error calling the model", 502)
-			log.Printf("Error calling the model: %v", err)
-			return
-		}
-		log.Println("Reading response to byte-array")
-		resbytes, err := io.ReadAll(llm_res.Body)
-		if llm_res.StatusCode != 200 {
-			http.Error(w, "Error calling the model", 502)
-			log.Printf("Error calling the model:\n Response Code: %d, Response: %s", llm_res.StatusCode, string(resbytes))
-			return
-		}
-		// map Groq response and Unmarshall it
-		var res models.GroqResponse
-		if err != nil {
-			log.Println("Jesus Christ we can't read shit")
-			http.Error(w, "Error decoding the response", http.StatusUnprocessableEntity)
-			return
-		}
-		log.Println("Unmarshalling response")
-		marsh_err := json.Unmarshal(resbytes, &res)
-		if marsh_err != nil {
-			http.Error(w, "Error decoding the response", http.StatusUnprocessableEntity)
-			log.Printf("Error unmarshalling the response: %v", res)
-			return
-		}
-		history = append(history, []models.ChatMessage{res.Choices[0].Message}...)
-		log.Println(history)
-		err = templates.History(history).Render(ctx, w)
-		if err != nil {
-			http.Error(w, "Internal Server Error", 500)
-			return
-		}
+func PostHistoryHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	userMessage := r.PostFormValue("user_message")
+	model := r.PostFormValue("model")
+	log.Printf(model)
+	if userMessage == "" {
+		http.Error(w, "Bad Request: no message provided", 400)
+		log.Println("Empty message")
+		return
+	}
+	newMessage := []models.ChatMessage{{Role: "user", Content: userMessage}}
+	history = append(history, newMessage...)
+	log.Println("Calling model!")
+	llm_res, err := CallGroqModel(&history)
+	if err != nil {
+		http.Error(w, "Error calling the model", 502)
+		log.Printf("Error calling the model: %v", err)
+		return
+	}
+	log.Println("Reading response to byte-array")
+	resbytes, err := io.ReadAll(llm_res.Body)
+
+	if err != nil {
+		log.Println("Jesus Christ we can't read shit")
+		http.Error(w, "Error decoding the response", http.StatusUnprocessableEntity)
+		return
+	}
+
+	if llm_res.StatusCode != 200 {
+		http.Error(w, "Error calling the model", 502)
+		log.Printf("Error calling the model:\n Response Code: %d, Response: %s", llm_res.StatusCode, string(resbytes))
+		return
+	}
+	// map Groq response and Unmarshall it
+	var res models.GroqResponse
+	log.Println("Unmarshalling response")
+	marsh_err := json.Unmarshal(resbytes, &res)
+	if marsh_err != nil {
+		http.Error(w, "Error decoding the response", http.StatusUnprocessableEntity)
+		log.Printf("Error unmarshalling the response: %v", res)
+		return
+	}
+	history = append(history, []models.ChatMessage{res.Choices[0].Message}...)
+	log.Println(history)
+	err = templates.History(history).Render(ctx, w)
+	if err != nil {
+		http.Error(w, "Internal Server Error", 500)
+		return
 	}
 }

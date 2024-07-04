@@ -29,4 +29,4 @@ FROM alpine:latest AS deploy-stage
 COPY --chown=65532:65532 --from=build-stage /app /app
 WORKDIR /app
 EXPOSE 8080
-CMD [".backend/backend"]
+CMD ["./backend/backend"]

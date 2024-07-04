@@ -11,7 +11,6 @@ import (
 
 func main() {
 	err := godotenv.Load()
-	log.Println(os.Environ())
 	if err != nil {
 		log.Fatal("Error loading .env file.")
 	}
@@ -30,8 +29,11 @@ func main() {
 	http.Handle("GET /scripts/", http.StripPrefix("/scripts",
 		http.FileServer(http.Dir(path.Join(rootdir, "scripts")))))
 
-	http.Handle("/history",
-		http.HandlerFunc(handlers.HistoryHandler))
+	http.Handle("GET /history",
+		http.HandlerFunc(handlers.GetHistoryHandler))
+
+	http.Handle("POST /history",
+		http.HandlerFunc(handlers.PostHistoryHandler))
 
 	http.HandleFunc("/", handlers.ChatClientHandler)
 
