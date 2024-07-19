@@ -90,7 +90,8 @@ For major changes, please open an issue first to discuss what you would like to 
 
 
 #TODO
-- Write tests
-- Better session handling
-- Add model options
-- Write a Dockerfile and a compose.yaml 
+- [ ] Write tests
+- [ ] Better session handling
+- [x] Add model options
+- [x] Write a Dockerfile and 
+- [ ] a compose.yaml 

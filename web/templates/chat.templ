@@ -1,6 +1,6 @@
 package templates
 
-import "github.com/rodrigomeireles/gpt-client/backend/models"
+import "github.com/rodrigomeireles/llm-client/backend/models"
 
 templ ChatClient(session string) {
 	<!DOCTYPE html>
@@ -64,11 +64,11 @@ templ ChatClient(session string) {
 							</li>
 							<li class="mb-2">
 								<label for="temperature">Temperature </label>
-								<input type="range" id="temperature" min="0" max="2" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
+								<input type="range" name="temperature" min="0" max="2" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
 							</li>
 							<li class="mb-2">
-								<label for="top-p">Top P </label>
-								<input type="range" id="top-p" min="0" max="1" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
+								<label for="top_p">Top P </label>
+								<input type="range" name="top_p" min="0" max="1" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
 							</li>
 						</ul>
 					</div>
@@ -105,7 +105,7 @@ templ ChatClient(session string) {
 					placeholder="Ask me anything"
 					class="self-stretch text-oxford_blue whitespace-pre-wrap rounded-md border bg-white p-5 text-2xl font-normal normal-case opacity-100 outline-none focus:opacity-100 focus:ring scroll-p-2"
 					hx-post="/history"
-					hx-include="[name='model']"
+					hx-include="[name='model'],[name='temperature'],[name='top_p']"
 					hx-target="#history"
 					hx-trigger="keydown[shiftKey&&key=='Enter']"
 					onkeydown="if (event.key === 'Enter' && event.shiftKey) { event.preventDefault(); return false; }"

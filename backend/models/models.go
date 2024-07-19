@@ -24,12 +24,25 @@ var GroqModels = map[string]string{
 }
 
 type GroqRequest struct {
-	Messages []ChatMessage `json:"messages"`
-	Model    string        `json:"model"`
+	Messages    []ChatMessage `json:"messages"`
+	Model       string        `json:"model"`
+	Temperature float64       `json:"temperature"`
+	Top_p       float64       `json:"top_p"`
 }
 
 type GroqResponse struct {
 	Choices []struct {
 		Message ChatMessage
 	}
+}
+
+type Config struct {
+	Model       string  `json:"model"`
+	Temperature float64 `json:"temperature"`
+	Top_p       float64 `json:"top_p"`
+}
+
+type ClientState struct {
+	History []ChatMessage `json:"history"`
+	Config  Config        `json:"-"`
 }

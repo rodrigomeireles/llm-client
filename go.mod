@@ -1,4 +1,4 @@
-module github.com/rodrigomeireles/gpt-client
+module github.com/rodrigomeireles/llm-client
 
 go 1.22.0
 

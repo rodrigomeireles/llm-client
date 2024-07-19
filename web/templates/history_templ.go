@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/rodrigomeireles/gpt-client/backend/models"
+import "github.com/rodrigomeireles/llm-client/backend/models"
 
 func History(history []models.ChatMessage) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {

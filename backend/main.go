@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
-	"github.com/rodrigomeireles/gpt-client/backend/handlers"
 	"log"
 	"net/http"
 	"os"
 	"path"
+
+	"github.com/joho/godotenv"
+	"github.com/rodrigomeireles/llm-client/backend/handlers"
 )
 
 func main() {
