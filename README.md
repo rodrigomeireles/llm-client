@@ -94,4 +94,12 @@ For major changes, please open an issue first to discuss what you would like to 
 - [ ] Better session handling
 - [x] Add model options
 - [x] Write a Dockerfile and 
-- [ ] a compose.yaml 
+- [ ] a compose.yaml
+- [ ] history of past chats
+- [ ] chat config template
+- [ ] render markdown
+- [ ] highlight codeblocks
+- [ ] button to easily copy code
+- [ ] upload file
+- [ ] add custom url as provider
+- [ ] add ollama as a provider
