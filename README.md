@@ -73,6 +73,15 @@ go test ./...
 
 This command will recursively run all tests in the backend directories.
 
+
+## Docker
+
+Just run:
+
+```sh
+docker compose up --build
+```
+
 ## Contributing
 
 If you wish to contribute to this project, please follow the below steps:
@@ -94,7 +103,7 @@ For major changes, please open an issue first to discuss what you would like to 
 - [ ] Better session handling
 - [x] Add model options
 - [x] Write a Dockerfile and 
-- [ ] a compose.yaml
+- [x] a compose.yaml
 - [ ] history of past chats
 - [ ] chat config template
 - [ ] render markdown
