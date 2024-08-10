@@ -38,7 +38,7 @@ func main() {
 
 	http.HandleFunc("/", handlers.ChatClientHandler)
 
-	log.Printf("Starting server.")
+	log.Printf("Starting server at http://localhost:8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatalf("Error starting server: %s\n", err)
 	}
