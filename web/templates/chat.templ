@@ -14,6 +14,12 @@ templ ChatClient(session string) {
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 			<script src="scripts/htmx.min.js"></script>
 			<script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/debug.js"></script>
+			<!-- UIkit CSS -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/css/uikit.min.css" />
+
+			<!-- UIkit JS -->
+			<script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/uikit@3.21.9/dist/js/uikit-icons.min.js"></script>
 		</head>
 		<body
 			class="flex flex-col self-stretch items-center h-screen bg-oxford_blue justify-between text-platinum text-2xl p-5 z-0 overflow-y-hidden"
@@ -54,23 +60,6 @@ templ ChatClient(session string) {
 								></path>
 							</svg>
 						</button>
-						<ul class="mt-4">
-							<li class="mb-2">
-								<select name="model" class="block hover:text-indigo400 bg-transparent">
-									for pretty_name, value := range models.GroqModels {
-										<option value={ value }>{ pretty_name } </option>
-									}
-								</select>
-							</li>
-							<li class="mb-2">
-								<label for="temperature">Temperature </label>
-								<input type="range" name="temperature" min="0" max="2" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
-							</li>
-							<li class="mb-2">
-								<label for="top_p">Top P </label>
-								<input type="range" name="top_p" min="0" max="1" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
-							</li>
-						</ul>
 					</div>
 				</div>
 				<button class="text-gray-500 hover:text-gray-600" id="open-sidebar">
@@ -111,6 +100,36 @@ templ ChatClient(session string) {
 					onkeydown="if (event.key === 'Enter' && event.shiftKey) { event.preventDefault(); return false; }"
 				></textarea>
 			</form>
+
+			<!-- This is a button toggling the modal -->
+			<button uk-toggle="target: #modal" type="button"></button>
+
+			<div id="modal" uk-modal>
+				<div class="uk-modal-dialog uk-modal-body">
+						<div>
+							<label for="system_message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">System message</label>
+							<input type="text" name="system_message" id="system_message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="You are an AI assistant." required />
+						</div>
+						<ul class="mt-4">
+							<li class="mb-2">
+								<select name="model" class="block hover:text-indigo400 bg-transparent">
+									for pretty_name, value := range models.GroqModels {
+										<option value={ value }>{ pretty_name } </option>
+									}
+								</select>
+							</li>
+							<li class="mb-2">
+								<label for="temperature">Temperature </label>
+								<input type="range" name="temperature" min="0" max="2" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
+							</li>
+							<li class="mb-2">
+								<label for="top_p">Top P </label>
+								<input type="range" name="top_p" min="0" max="1" step="0.1" value="1" class="block hover:text-indigo-400 invisible"/>
+							</li>
+						</ul>
+					<button class="uk-modal-close" type="button"></button>
+				</div>
+			</div>
 		</body>
 	</html>
 }

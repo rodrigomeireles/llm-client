@@ -37,6 +37,7 @@ type GroqResponse struct {
 }
 
 type Config struct {
+	History     []ChatMessage
 	Model       string  `json:"model"`
 	Temperature float64 `json:"temperature"`
 	Top_p       float64 `json:"top_p"`
